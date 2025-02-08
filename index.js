@@ -18,9 +18,12 @@ app.post('/scrape', async (req, res) => {
         const { data } = await axios.get(url);
         const $ = cheerio.load(data); // Load the HTML using Cheerio
         const text = $('body').text().toLowerCase(); // Extract text content from the body
+        
+        console.log(text);  // Log the scraped text for debugging
 
-        // Check if the fact exists in the website's content
-        const result = text.includes(fact.toLowerCase()) ? 'Fact found' : 'Fact not found';
+        // Trim and check if the fact exists in the website's content
+        const factTrimmed = fact.trim().toLowerCase();
+        const result = text.includes(factTrimmed) ? 'Fact found' : 'Fact not found';
         
         // Send the result back to the client
         res.json({ result });
